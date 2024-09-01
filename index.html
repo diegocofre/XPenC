@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <title>Formulario de Gastos</title>
+  </head>
+  <body>
+    <form id="formularioGastos" method="post">
+      <label for="descripcion">Descripción:</label><br>
+      <input type="text" id="descripcion" name="descripcion" required><br><br>
+      
+      <label for="costo">Costo:</label><br>
+      <input type="number" id="costo" name="costo" required><br><br>
+
+      <label for="categoria">Categoría:</label><br>
+      <input type="text" id="categoria" name="categoria" ><br><br>
+
+      <label for="paga">Paga:</label><br>
+      <input type="text" id="paga" name="paga" required><br><br>
+
+      <label for="fecha">Fecha (YYYY-MM-DD):</label><br>
+      <input type="text" id="fecha" name="fecha"><br><br>
+
+      <label for="userAlta">Usuario Alta:</label><br>
+      <input type="text" id="userAlta" name="userAlta"><br><br>
+
+      <button type="submit">Enviar</button>
+    </form>
+    <script>
+      // Función para manejar el envío del formulario
+      document.getElementById('formularioGastos').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+
+        // Crea un objeto para almacenar los datos del formulario
+        var datos = {};
+        datos.descripcion = document.getElementById('descripcion').value;
+        datos.categoria = document.getElementById('categoria').value;
+        datos.costo = document.getElementById('costo').value;
+        datos.paga = document.getElementById('paga').value;
+        datos.fecha = document.getElementById('fecha').value;
+        datos.userAlta = document.getElementById('userAlta').value;
+
+        // Envía los datos como JSON a la función doPost usando fetch()
+        fetch('https://script.google.com/macros/s/AKfycbyGzmXWC1hC8RAt0nNy8WNZ9i6hsDvFGVbr4PRxaOSzCPsnTiR3P-TlFWnR6GC9i78/exec', { 
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json' // Especifica que el cuerpo es JSON
+          },
+          body: JSON.stringify(datos) // Convierte los datos a JSON
+        })
+        .then(response => response.text())
+        .then(data => {
+          alert(data); 
+          this.reset(); 
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Hubo un error al enviar el formulario.');
+        });
+      });
+    </script>
+  </body>
+</html>
